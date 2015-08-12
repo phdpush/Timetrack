@@ -1,0 +1,14 @@
+<h1><%=@sum%> Hours worked this month</h1>
+
+
+	<table border="1" style="width:100%" height='100'>
+	  <% for task in @tasks %>
+	    <tr>
+	    	<td><%= task.description  %></td>
+	    	<td><%= task.hoursworked %></td>
+	    	<td><%= task.dateworked %></td>
+	    	<td><%= task.user_id %></td>
+	    	<td><%= task.user.email if task.user%></td>
+	    </tr>
+	  <% end %>
+	</table>

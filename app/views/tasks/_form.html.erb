@@ -1,0 +1,51 @@
+<%= form_for @task, :html => { :class => "form-horizontal task" } do |f| %>
+
+    <% if @task.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @task.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+  <div class="control-group">
+    <%= f.label :project_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.collection_select :project_id, @projects, :id, :project_name, {:prompt => "--Select--"} %>
+    </div>
+    <%= error_span(@task[:description]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :description, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :description, :class => 'form-control' %>
+    </div>
+    <%= error_span(@task[:description]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :hoursworked, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select :hoursworked, options_for_select(48.times.map{|i| i*0.5} , :selected => :hoursworked) => 'form-control' %>
+    </div>
+    <%= error_span(@task[:hoursworked]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :dateworked, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.date_field :dateworked, :value => params[:dateworked], :class => 'form-control' %>
+    </div>
+    <%= error_span(@task[:dateworked]) %>
+  </div>
+
+
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            tasks_path(:dateworked => @task.dateworked), :class => 'btn btn-default' %>
+
+<% end %>
